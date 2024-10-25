@@ -1,62 +1,20 @@
-﻿/**@mainpage   NIO_ALPS_DOM
- * <table>
- * <tr><th>Project  <td>run
- * <tr><th>Author   <td>jiandong.liu
- * <tr><th>Source
- *<td>https://gitlab1.forvision-tech.com/customer/nio/nt3/nt3_soc/-/tree/platform
- * </table>
- * @section   Description
- * -# main 主函数
- *
- * @section   GettingStarted
- * -# runtime: 运行调度
- *
- * @section   FirmwareUpdate
- * <table>
- * <tr><th>Date        <th>S_Version  <th>Author    <th>Description  </tr>
- * <tr><td>20240928    <td>platform1.0.0.0   <td>jiandong.liu  <td>创建初始版本
- * </tr>
- * </table>
- **********************************************************************************
- */
+﻿#include <stdio.h>  // printf()
+#include <unistd.h> // write()
+#include <iostream> // std::cout
 
-#include "run_contex.h"
-#include <memory>
-#ifdef __TEST__
-#include "source_base.h"
-#endif
-/**
- * @brief 主函数，程序入口
- *
- * @param argc 命令行参数数量
- * @param argv 命令行参数数组
- * @return int 返回值
- */
 int main(int argc, char *argv[])
 {
+    // 使用 printf 输出参数
+    printf("argv[0]: %s\nargv[1]: %s\nargv[2]: %s\n", argv[0], argv[1], argv[2]);
 
-    auto run_ctx = std::make_shared<runcontex::RunContex>();
+    // 使用 std::cout 输出参数,不符合POSIX标准
+    std::cout << "argv[0]: " << argv[0] << "\n"
+              << "argv[1]: " << argv[1] << "\n"
+              << "argv[2]: " << argv[2] << std::endl;
 
-    // #2 Init
-    run_ctx->Init();
-#ifdef __TEST__
-    uss_source::SourceManager source_manager(run_ctx);
-    source_manager.Init();
-#endif
-
-    // #3 Start
-    run_ctx->Start();
-
-#ifdef __TEST__
-    auto test_func = [&] { source_manager.Run(); };
-    std::thread(test_func).detach();
-#endif
-
-    //  run_ctx->Stop();
-
-    //  run_ctx->Deinit();
-
-    run_ctx->Loop();
+    // 使用 write 输出参数
+    const char *message = "argv[0]: %s\nargv[1]: %s\nargv[2]: %s\n";
+    dprintf(STDOUT_FILENO, message, argv[0], argv[1], argv[2]);
 
     return 0;
 }

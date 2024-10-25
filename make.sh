@@ -110,7 +110,7 @@ ExitIfCheckFail "make"
 make install
 ExitIfCheckFail "install"
 cp ./compile_commands.json ../cmake
-cp ../script_tool/init.sh ./
+cp ../script_tool/run.sh ./
 
 # 运行 | 打包
 case "$operation" in

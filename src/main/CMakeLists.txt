@@ -1,4 +1,4 @@
-file(GLOB_RECURSE main_SRCS ./*.cpp)
+file(GLOB_RECURSE main_SRCS ./main.cpp)
 
 add_executable(main_run ${main_SRCS})
 
